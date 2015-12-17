@@ -1,0 +1,119 @@
+<!doctype html>
+
+<html>
+  <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rachel Avallone - Portfolio</title>
+
+    <!-- basic example from google webfonts -->
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet" type="text/css">
+
+    <style>
+      body {
+        font-family: 'PT Mono', monaco, monospace;
+      }
+    </style>
+
+    <!-- basic font icons from fontawesome.io (the instructions for use are on fontawesome.io) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="grid.css">
+    <link rel="stylesheet" type="text/css" href="basics.css">
+
+  </head>
+
+  <body>
+    <main>
+      <div class="container">
+        <h1>rachel avallone</h1>
+          <header><a href="index.html">portfolio</a> <a href="about.html" class="active">about</a></header>
+        <div id="behance-magix" class="clearfix">
+          <!-- insert some HTML via magic JS -->
+            <p>This will be erased when js draws our new content</p>
+          <!-- this is the template that each behance thing with use to print to the browser -->
+          <script id="behance-project" type="text/template">
+            {{#projects}}
+            <div class="project" id="b{{id}}">
+            <a class="wrapping" href="#{{id}}" data-project-id="{{id}}">
+                <img src="{{covers.404}}" alt="{{name}}" />
+                <h2>{{name}}</h2>
+              </a>
+            </div>
+            {{/projects}}
+          </script>
+
+        </div>
+          <footer> &copy; Rachel Avallone 2015</footer>
+      </div>
+    </main>
+
+      <div id="dynamic-pages">
+      </div>
+
+      <script id="project-page" type="text/template">
+      <div class="project-page" id="project-{{project.id}}">
+        <div class="container">
+            <h1>{{project.name}}</h1>
+            <p>{{project.description}}</p>
+
+            {{#project.modules}}
+            <img id="img-{{id}}" class="{{type}}" src="{{sizes.max_1200}}" />
+            {{/project.modules}}
+            <p class="small">
+                <a href="{{project.url}}">See everything related to {{project.name}} on Behance.net</a>
+                </p>
+                </div>
+                <button class="close">x</button>
+                </div>
+      </script>
+
+
+    <!-- All your javascript (other than typekit related stuff) -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+
+    <!-- this is jquery, needed for a bunch of stuff -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <!-- this is mustache, required for the templating to happen -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.1.2/mustache.min.js"></script>
+
+    <script>
+      var userName = 'rachelavallone'
+      var apiKey   = 'ojBXSWGiH5dU1BLkYIPZ9DL8mzmt3KRR'
+      var url = 'https://www.behance.net/v2/users/' + userName + '/projects/?api_key=' + apiKey + '&per_page=25&callback=?';
+
+      $.getJSON(url, function(data) {
+        console.log('connected to ' + url + '.');
+        //mustache for projects
+        var template = $('#behance-project').html();
+        var info = Mustache.to_html(template, data);
+        $('#behance-magix').html(info);
+
+
+        // this allows for the 'page' to be printed out in new window when the main project image is clicked
+          $('.project a').click(function() {
+              var projectID = $(this).attr('data-project-id');
+              var projectUrl = 'https://api.behance.net/v2/projects/' + projectID + '/?api_key=' + apiKey + '&callback=?';
+
+              $.getJSON(projectUrl, function(data) {
+                var template = $('#project-page').html();
+                var info = Mustache.to_html(template, data);
+                $('#dynamic-pages').html(info);
+                $('body').addClass('stop-scrolling');
+
+
+                  $('button.close').click(function() {
+                      $('.project-page').hide();
+                      $('body').removeClass('stop-scrolling');
+
+                  });
+              });
+          });
+      });
+
+    </script>
+
+  </body>
+</html>

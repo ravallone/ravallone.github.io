@@ -1,0 +1,88 @@
+#dynamic-pages .project-page {
+    position: fixed;
+    z-index: 9999999;
+    background: #fff;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+}
+
+.stop-scrolling {
+    height: 100%;
+    overflow: hidden;
+}
+
+.project-page button.close {
+    position: fixed;
+    top: 2em;
+    right: 2em;
+}
+
+img.text, img.video {display: none;}
+
+
+body {
+    font-family: Helvetica, sans-serif;
+
+}
+
+header {
+    margin-bottom: 2em;
+}
+
+header a {
+    padding-right: .5em;
+    margin-right: .5em;
+    display: inline-block;
+}
+
+h1 {
+    font-family: Helvetica, sans-serif;
+    letter-spacing: .2em;
+}
+
+h2 {
+    font-family: Helvetica, sans-serif;
+    color: black;
+    letter-spacing: .1em;
+    text-decoration: none;
+    font-size: 1em;
+}
+
+h2:hover {
+    color: aquamarine;
+}
+
+ul {
+    list-style-type: none;
+    color: black;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    color: black;
+}
+
+a:hover {
+    color: aquamarine;
+}
+
+footer {
+    clear: both;
+    margin-top: 2em;
+}
+
+@media (min-width: 768px) {
+    .project {
+        box-sizing: border-box;
+        float: left;
+        padding-right: 2em;
+        width: 33.3333%;
+    }
+}
